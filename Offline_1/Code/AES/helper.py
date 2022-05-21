@@ -1,4 +1,4 @@
-from bitvectordemo import *
+from AES.bitvectordemo import *
 
 
 def circular_left_shift(array):
@@ -37,20 +37,6 @@ def sub_bytes(array, dim):
     return array
 
 
-def add_round_constant(array, round):
-    """
-    :param array: 1D array of length 4
-    :param round: integer
-    :return: 1D array of length 4
-    """
-    round_constant = RoundConstant[round-1]
-
-    for i in range(len(array)):
-        array[i] = int(array[i]) ^ round_constant[i]
-
-    return array
-
-
 def elementwise_xor(array1, array2):
     """
     :param array1: 1D array of length l
@@ -85,15 +71,19 @@ def print_rounds_keys(round_keys):
         round += 1
 
 
-def print_in_hex(array):
+def print_in_hex(array, dim):
     """
     :param array: 2D array with integer values
     :return:
     """
-    for i in range(len(array)):
-        for j in range(len(array[0])):
-            print(hex(array[i][j]), end=" ")
-        print()
+    if dim == 1:
+        for i in range(len(array)):
+            print(hex(array[i]), end=" ")
+    elif dim == 2:
+        for i in range(len(array)):
+            for j in range(len(array[0])):
+                print(hex(array[i][j]), end=" ")
+            print()
 
 
 def transpose(l1):

@@ -1,5 +1,5 @@
-from Key import *
-from helper import *
+from AES.key import *
+from AES.helper import *
 
 
 def input_plaintext(text):
@@ -26,7 +26,8 @@ def add_round_key(state_matrix, round_keys, round):
     :param round: integer
     :return:
     """
-    state_matrix = transpose(state_matrix)
+    if round == 0:
+        state_matrix = transpose(state_matrix)
     current_round_key = transpose(round_keys[round])
 
     if len(state_matrix) != len(current_round_key):
@@ -89,14 +90,29 @@ def mix_column(state_matrix):
 
     return new_state_matrix
 
+
 # -------------------------------------------------------#
 
-text = "Two One Nine Two"
-key = "Thats my Kung Fu"
-state_matrix = input_plaintext(text)
-round_keys = generate_round_keys(key)
-new_state_matrix = add_round_key(state_matrix, round_keys, 0)
-new_state_matrix = sub_bytes(new_state_matrix, 2)
-new_state_matrix = shift_row(new_state_matrix)
-new_state_matrix = mix_column(new_state_matrix)
-print_in_hex(new_state_matrix)
+
+def encrypt_AES(plaintext, keytext):
+    """
+    :param plaintext: a string containing the text to be encrypted
+    :param keytext: a string that will be used to encrypt
+    :return: state_matrix: 2D list
+    """
+    state_matrix = input_plaintext(plaintext)
+    round_keys = key_expansion(keytext)
+
+    state_matrix = add_round_key(state_matrix, round_keys, 0)
+
+    for round in range(1, 10):
+        state_matrix = sub_bytes(state_matrix, 2)
+        state_matrix = shift_row(state_matrix)
+        state_matrix = mix_column(state_matrix)
+        state_matrix = add_round_key(state_matrix, round_keys, round)
+
+    state_matrix = sub_bytes(state_matrix, 2)
+    state_matrix = shift_row(state_matrix)
+    state_matrix = add_round_key(state_matrix, round_keys, 10)
+
+    return state_matrix

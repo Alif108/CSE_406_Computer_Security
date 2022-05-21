@@ -1,6 +1,6 @@
-from helper import *
+from AES.helper import *
 
-from itertools import chain
+# from itertools import chain
 import numpy as np
 
 
@@ -21,6 +21,20 @@ def input_key(text):
     return key_in_hex
 
 
+def add_round_constant(array, round):
+    """
+    :param array: 1D array of length 4
+    :param round: integer
+    :return: 1D array of length 4
+    """
+    round_constant = RoundConstant[round-1]
+
+    for i in range(len(array)):
+        array[i] = int(array[i]) ^ round_constant[i]
+
+    return array
+
+
 def func_g(w, round):
     """
     :param w: 1D array of length 4
@@ -32,7 +46,7 @@ def func_g(w, round):
     return w
 
 
-def key_expansion(key, round):
+def generate_next_round_key(key, round):
     """
     :param key: 2D array of dim 4x4
     :param round: integer
@@ -60,7 +74,7 @@ def key_expansion(key, round):
     return new_key
 
 
-def generate_round_keys(key_in_text):
+def key_expansion(key_in_text):
     """
     :param key_in_text: key in plain ASCII string
     :return: array of dim 11x16
@@ -72,14 +86,9 @@ def generate_round_keys(key_in_text):
 
     round_i_key = round0_key
     for round in range(1, 11):
-        new_key = key_expansion(round_i_key, round)
+        new_key = generate_next_round_key(round_i_key, round)
         round_keys.append(new_key)
         # round_keys.append(list(chain.from_iterable(new_key)))
         round_i_key = new_key
 
     return round_keys
-
-
-# s = "Thats my Kung Fu"
-# print_rounds(generate_round_keys(s))
-# print(generate_round_keys(s))
