@@ -1,4 +1,5 @@
 from AES.encrypt import *
+from AES.decrypt import *
 
 # text = input("Enter your plaintext: ")
 # key = input("Enter your key: ")
@@ -20,7 +21,14 @@ print("[In HEX]")
 print()
 
 print("Cipher Text: ")
-ciphertext = encrypt_AES(plaintext=text, keytext=key)
+ciphertext = encrypt_AES(plaintext=text, key=key)
 print_in_hex(ciphertext, 2)
 print("[In HEX]")
 print()
+
+print("Decipher Text: ")
+deciphertext = decrypt_AES(ciphertext=ciphertext, key=key)
+print_in_hex(deciphertext, 2)
+print("[In HEX]")
+print()
+

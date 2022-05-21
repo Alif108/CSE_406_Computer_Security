@@ -13,11 +13,23 @@ def circular_left_shift(array):
     return array
 
 
+def circular_right_shift(array):
+    """
+    :param array: 1D array of any size
+    :return: 1D left shifted array
+    """
+    temp = array[len(array)-1]
+    for i in reversed(range(0, len(array)-1)):
+        array[i+1] = array[i]
+    array[0] = temp
+    return array
+
+
 def sub_bytes(array, dim):
     """
     :param array: array (1D/2D)
     :param dim: dimension of array
-    :return: 1D array, entries substituted with S-BOX value (string)
+    :return: 1D/2D array, entries substituted with S-BOX value (string)
     """
     if dim == 1:
         for i in range(len(array)):
@@ -54,6 +66,37 @@ def elementwise_xor(array1, array2):
         array.append(array1[i] ^ array2[i])
 
     return array
+
+
+def add_round_key(state_matrix, round_keys, round):
+    """
+    :param state_matrix: 2D array
+    :param round_keys: 2D array
+    :param round: integer
+    :return:
+    """
+    if round == 0:
+        state_matrix = transpose(state_matrix)
+    current_round_key = transpose(round_keys[round])
+
+    if len(state_matrix) != len(current_round_key):
+        print("Add Round Key: Dimensions don't match")
+        exit(1)
+
+    if len(state_matrix[0]) != len(current_round_key[0]):
+        print("Add Round Key: Dimensions don't match")
+        exit(1)
+
+    temp = []
+    new_state_matrix = []
+
+    for i in range(len(state_matrix)):
+        for j in range(len(state_matrix[0])):
+            temp.append(state_matrix[i][j] ^ current_round_key[i][j])
+        new_state_matrix.append(temp)
+        temp = []
+
+    return new_state_matrix
 
 
 def print_rounds_keys(round_keys):
