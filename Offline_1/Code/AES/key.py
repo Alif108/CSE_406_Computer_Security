@@ -46,11 +46,11 @@ def func_g(w, round):
     return w
 
 
-def generate_next_round_key(key, round):
+def key_schedule(key, round):
     """
-    :param key: 2D array of dim 4x4
+    :param key: 1D array
     :param round: integer
-    :return: 2D array of dim 4x4
+    :return: 1D array
     """
 
     w0 = key[0]
@@ -86,7 +86,7 @@ def key_expansion(key_in_text):
 
     round_i_key = round0_key
     for round in range(1, 11):
-        new_key = generate_next_round_key(round_i_key, round)
+        new_key = key_schedule(round_i_key, round)
         round_keys.append(new_key)
         # round_keys.append(list(chain.from_iterable(new_key)))
         round_i_key = new_key

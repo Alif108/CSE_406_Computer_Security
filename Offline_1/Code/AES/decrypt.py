@@ -1,6 +1,6 @@
 from AES.key import *
 from AES.helper import *
-from AES.bitvectordemo import *
+# from AES.bitvectordemo import *
 
 
 def inverse_shift_row(state_matrix):
@@ -69,16 +69,16 @@ def inverse_mix_column(state_matrix):
 def decrypt_AES(ciphertext, key):
     round_keys = key_expansion(key)
 
-    state_matrix = add_round_key(ciphertext, round_keys, 10)
+    state_matrix = add_round_key(ciphertext, round_keys, 10, DECRYPT)
 
     for round in reversed(range(1, 10)):
         state_matrix = inverse_shift_row(state_matrix)
         state_matrix = inverse_sub_bytes(state_matrix, 2)
-        state_matrix = add_round_key(state_matrix, round_keys, round)
+        state_matrix = add_round_key(state_matrix, round_keys, round, DECRYPT)
         state_matrix = inverse_mix_column(state_matrix)
 
     state_matrix = inverse_shift_row(state_matrix)
     state_matrix = inverse_sub_bytes(state_matrix, 2)
-    state_matrix = add_round_key(state_matrix, round_keys, 0)
+    state_matrix = add_round_key(state_matrix, round_keys, 0, DECRYPT)
 
     return state_matrix

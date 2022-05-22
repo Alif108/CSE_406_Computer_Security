@@ -73,18 +73,18 @@ def encrypt_AES(plaintext, key):
     round_keys = key_expansion(key)
 
     # ROUND 0
-    state_matrix = add_round_key(state_matrix, round_keys, 0)
+    state_matrix = add_round_key(state_matrix, round_keys, 0, ENCRYPT)
 
     # ROUND 1 to 9
     for round in range(1, 10):
         state_matrix = sub_bytes(state_matrix, 2)
         state_matrix = shift_row(state_matrix)
         state_matrix = mix_column(state_matrix)
-        state_matrix = add_round_key(state_matrix, round_keys, round)
+        state_matrix = add_round_key(state_matrix, round_keys, round, ENCRYPT)
 
     # ROUND 10
     state_matrix = sub_bytes(state_matrix, 2)
     state_matrix = shift_row(state_matrix)
-    state_matrix = add_round_key(state_matrix, round_keys, 10)
+    state_matrix = add_round_key(state_matrix, round_keys, 10, ENCRYPT)
 
     return state_matrix

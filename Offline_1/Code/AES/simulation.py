@@ -26,7 +26,7 @@ print_in_hex(ciphertext, 2)
 print("[In HEX]")
 print()
 
-print("Decipher Text: ")
+print("Deciphered Text: ")
 deciphertext = decrypt_AES(ciphertext=ciphertext, key=key)
 print_in_hex(deciphertext, 2)
 print("[In HEX]")

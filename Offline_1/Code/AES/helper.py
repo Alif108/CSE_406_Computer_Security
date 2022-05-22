@@ -1,6 +1,10 @@
 from AES.bitvectordemo import *
 
 
+ENCRYPT = 0
+DECRYPT = 1
+
+
 def circular_left_shift(array):
     """
     :param array: 1D array of any size
@@ -68,14 +72,15 @@ def elementwise_xor(array1, array2):
     return array
 
 
-def add_round_key(state_matrix, round_keys, round):
+def add_round_key(state_matrix, round_keys, round, decryption):
     """
-    :param state_matrix: 2D array
-    :param round_keys: 2D array
+    :param state_matrix: 2D list
+    :param round_keys: 2D list
     :param round: integer
+    :param decryption: boolean, 0->encryption, 1->decryption
     :return:
     """
-    if round == 0:
+    if round == 0 and not decryption:
         state_matrix = transpose(state_matrix)
     current_round_key = transpose(round_keys[round])
 
@@ -129,10 +134,10 @@ def print_in_hex(array, dim):
             print()
 
 
-def transpose(l1):
-    # we have nested loops in comprehensions
-    # value of i is assigned using inner loop
-    # then value of item is directed by row[i]
-    # and appended to l2
-    l2 = [[row[i] for row in l1] for i in range(len(l1[0]))]
-    return l2
+def transpose(matrix1):
+    """
+    :param matrix1: 2D list with dim (m x n)
+    :return: 2D list with dim (n x m)
+    """
+    matrix2 = [[row[i] for row in matrix1] for i in range(len(matrix1[0]))]
+    return matrix2
