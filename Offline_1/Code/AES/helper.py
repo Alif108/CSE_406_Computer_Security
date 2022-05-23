@@ -134,6 +134,16 @@ def print_in_hex(array, dim):
             print()
 
 
+def print_in_ASCII(deciphertext):
+    """
+    :param deciphertext: 2D array [in transposed form]
+    :return:
+    """
+    for i in range(len(deciphertext)):
+        for j in range(len(deciphertext[0])):
+            print(chr(deciphertext[j][i]), end="")
+
+
 def transpose(matrix1):
     """
     :param matrix1: 2D list with dim (m x n)
