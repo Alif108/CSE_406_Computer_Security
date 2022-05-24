@@ -1,8 +1,26 @@
 from AES.bitvectordemo import *
+import numpy as np
 
 
 ENCRYPT = 0
 DECRYPT = 1
+
+
+def plaintext_to_hex(text):
+    """
+    :param text: a string
+    :return: 2D array with the string converted to its ASCII values(integer)
+    """
+    plaintext_in_hex = []
+
+    if len(text) == 16:
+        # for i in text.encode('utf-8'):
+        #     plaintext_in_hex.append(hex(i))
+        for i in text:
+            plaintext_in_hex.append(ord(i))
+
+    plaintext_in_hex = np.reshape(plaintext_in_hex, (-1, 4))
+    return plaintext_in_hex
 
 
 def circular_left_shift(array):
@@ -134,14 +152,29 @@ def print_in_hex(array, dim):
             print()
 
 
-def print_in_ASCII(deciphertext):
+
+def convert_to_ASCII_string_AES(text_in_list):
     """
-    :param deciphertext: 2D array [in transposed form]
-    :return:
+    :param text_in_list: 2D list [in transposed form]
+    :return: string
     """
-    for i in range(len(deciphertext)):
-        for j in range(len(deciphertext[0])):
-            print(chr(deciphertext[j][i]), end="")
+    text_in_string = ""
+    for i in range(len(text_in_list)):
+        for j in range(len(text_in_list[0])):
+            # print(chr(text_in_list))[j][i]), end="")
+            text_in_string += chr(text_in_list[j][i])
+
+    return text_in_string
+
+
+# def print_in_ASCII(deciphertext):
+#     """
+#     :param deciphertext: 2D array [in transposed form]
+#     :return:
+#     """
+#     for i in range(len(deciphertext)):
+#         for j in range(len(deciphertext[0])):
+#             print(chr(deciphertext[j][i]), end="")
 
 
 def transpose(matrix1):
@@ -151,3 +184,14 @@ def transpose(matrix1):
     """
     matrix2 = [[row[i] for row in matrix1] for i in range(len(matrix1[0]))]
     return matrix2
+
+
+def get_uniform_chunks(string, n):
+    split_strings = []
+    for index in range(0, len(string), n):
+        split_strings.append(string[index: index + n])
+
+    if len(split_strings[len(split_strings) - 1]) < n :
+        split_strings[len(split_strings) - 1] += '*' * (n - len(split_strings[len(split_strings) - 1]))
+
+    return split_strings

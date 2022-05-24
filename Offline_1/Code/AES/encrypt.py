@@ -2,22 +2,6 @@ from AES.key import *
 from AES.helper import *
 
 
-def input_plaintext(text):
-    """
-    :param text: a string
-    :return: 2D array with the string converted to its ASCII values(integer)
-    """
-    plaintext_in_hex = []
-
-    if len(text) == 16:
-        # for i in text.encode('utf-8'):
-        #     plaintext_in_hex.append(hex(i))
-        for i in text:
-            plaintext_in_hex.append(ord(i))
-
-    plaintext_in_hex = np.reshape(plaintext_in_hex, (-1, 4))
-    return plaintext_in_hex
-
 
 def shift_row(state_matrix):
     """
@@ -69,7 +53,7 @@ def encrypt_AES(plaintext, key):
     :param key: a string that will be used to encrypt
     :return: state_matrix: 2D list
     """
-    state_matrix = input_plaintext(plaintext)
+    state_matrix = plaintext_to_hex(plaintext)
     round_keys = key_expansion(key)
 
     # ROUND 0

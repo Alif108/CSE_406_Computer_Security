@@ -1,8 +1,11 @@
-import math
-from RSA.prime_test import *
+from RSA.helper import *
 
 
 def key_generation(k):
+    """
+    :param k: size (in bit) of keys
+    :return: keys -> 2D array -> [public key, private key]
+    """
     p = generate_prime_number(k)
     q = generate_prime_number(k)
 
@@ -50,27 +53,35 @@ def encrypt_char(P, public_key):
     """
     :param P: character to be encrypted
     :param public_key: 1D array -> [e, n]
-    :return:
+    :return: encrypted ASCII value -> integer
     """
     P = ord(P)                  # taking the ASCII value
     e = public_key[0]
     n = public_key[1]
-    return (P ** e) % n         # C = P^e mod n
+
+    return modular(P, e, n)     # C = P^e mod n
+    # return (P ** e) % n
 
 
 def decrypt_char(C, private_key):
     """
     :param C: Ciphertext character to be decrypted
     :param private_key:
-    :return:
+    :return: decrypted character (char)
     """
     d = private_key[0]
     n = private_key[1]
 
-    return chr(int((C ** d) % n))     # P = C^d mod n
+    # return chr(int((C ** d) % n))
+    return chr(int(modular(C, d, n)))       # P = C^d mod n
 
 
-def encrypt(plaintext, public_key):
+def encrypt_RSA(plaintext, public_key):
+    """
+    :param plaintext: plaintext to be encrypted [string]
+    :param public_key: 1D array -> [e, n]
+    :return: ciphertext (1D array of integers)
+    """
     ciphertext = []
 
     for i in plaintext:
@@ -79,7 +90,12 @@ def encrypt(plaintext, public_key):
     return ciphertext
 
 
-def decrypt(ciphertext, private_key):
+def decrypt_RSA(ciphertext, private_key):
+    """
+    :param ciphertext: Ciphertext that is to be decrypted -> 1D array of ASCII values (integers)
+    :param private_key: 1D array -> [d, n]
+    :return: deciphertext -> 1D array of characters
+    """
     deciphertext = []
 
     for i in ciphertext:
