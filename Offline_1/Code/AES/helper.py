@@ -186,7 +186,7 @@ def transpose(matrix1):
     return matrix2
 
 
-def get_uniform_chunks(string, n):
+def pad_plaintext(string, n):
     split_strings = []
     for index in range(0, len(string), n):
         split_strings.append(string[index: index + n])
@@ -195,3 +195,13 @@ def get_uniform_chunks(string, n):
         split_strings[len(split_strings) - 1] += '*' * (n - len(split_strings[len(split_strings) - 1]))
 
     return split_strings
+
+
+def pad_key(string, n):
+    if len(string) > n:
+        string = string[:n]
+
+    elif len(string) < n:
+        string += "*" * (n-len(string))
+
+    return string

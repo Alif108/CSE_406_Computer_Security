@@ -8,7 +8,7 @@ size = 16                                       # in bytes
 plaintext = "CanTheyDoTheirFest?"
 key = "BUET CSE17 Batch"
 
-padded_plaintext = get_uniform_chunks(plaintext, size)
+padded_plaintext = pad_plaintext(plaintext, size)
 
 for text in padded_plaintext:
     print("Plain Text: ")

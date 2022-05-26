@@ -1,4 +1,6 @@
 from RSA.helper import *
+import math
+from BitVector import *
 
 
 def key_generation(k):
@@ -12,32 +14,20 @@ def key_generation(k):
     while p == q:
         q = generate_prime_number(k)
 
-    print("p: %d" % p)
-    print("q: %d" % q)
-
     n = p * q
     phi = (p-1) * (q-1)
 
-    print("phi: %d" % phi)
-
-    e = p
-    # e = 1
-    # for i in range(2, phi):
-    #     if math.gcd(i, phi) == 1:       # TODO: research 'Euler's Totient'
-    #         e = i
-    #         break
-
-    print("e: %d" % e)
-
-    i = 1
     while True:
-        if ((1 + i * phi) % e) == 0:
-            d = (1 + i * phi) / e
+        e = random.randrange(2, phi)
+        if math.gcd(e, phi) == 1:
             break
-        i += 1
 
-    print("d: %d" % d)
-    print("i: %d" % i)
+    d = 1
+    bv_modulus = BitVector(intVal=phi)
+    bv = BitVector(intVal=e)
+    bv_result = bv.multiplicative_inverse(bv_modulus)
+    if bv_result is not None:
+        d = int(bv_result)
 
     keys = []
     public_key = [e, n]
@@ -60,7 +50,6 @@ def encrypt_char(P, public_key):
     n = public_key[1]
 
     return modular(P, e, n)     # C = P^e mod n
-    # return (P ** e) % n
 
 
 def decrypt_char(C, private_key):
@@ -72,7 +61,6 @@ def decrypt_char(C, private_key):
     d = private_key[0]
     n = private_key[1]
 
-    # return chr(int((C ** d) % n))
     return chr(int(modular(C, d, n)))       # P = C^d mod n
 
 

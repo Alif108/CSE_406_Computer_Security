@@ -2,7 +2,7 @@ from RSA.RSA_algorithm import *
 
 
 plaintext = "HAHA VODOXXX"
-k = 16
+k = 128
 
 keys = key_generation(int(k/2))
 public_key = keys[0]
