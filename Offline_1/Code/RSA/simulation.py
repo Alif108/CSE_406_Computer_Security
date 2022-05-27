@@ -1,10 +1,9 @@
 from RSA.RSA_algorithm import *
 
+bits = 128
+plaintext = input("Enter you plaintext: ")
 
-plaintext = "This is no place for no hero, This is no place for a better man to call home."
-k = 64
-
-keys = key_generation(int(k/2))
+keys = key_generation(int(bits/2))
 public_key = keys[0]
 private_key = keys[1]
 
@@ -22,7 +21,9 @@ deciphertext_list = decrypt_RSA(ciphertext, private_key)
 for i in deciphertext_list:
     deciphertext += i
 
-print(deciphertext)
+print("Deciphertext: %s" % deciphertext)
 
 if plaintext == deciphertext:
     print("Plaintext and Deciphertext Matched")
+else:
+    print("Plaintext and Deciphertext Did not Match :( ")

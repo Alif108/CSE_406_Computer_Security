@@ -31,13 +31,16 @@ while True:
     # ----------------- input plaintext and key ------------------------- #
 
     plaintext = input("Enter your plaintext: ")
-    key = input("Enter your key: ")
-    # plaintext = "CanTheyDoTheirFest?"
-    # key = "BUET CSE17 Batch"
 
-    key = pad_key(key, size)
     padded_plaintext = pad_plaintext(plaintext, size)                  # store plaintext into chunks
     client_socket.send(str(len(padded_plaintext)).encode())            # sending the total number of the chunks
+
+    key = input("Enter your key: ")
+    key = pad_key(key, size)
+
+    print("Plaintext: %s" % plaintext)
+    print("Key: %s" % key)
+    print()
 
     # ------------- sending cipher text (AES encrypted) ----------------- #
 
@@ -81,14 +84,14 @@ while True:
 
     # --------------------- sending public key (PUK) ------------------- #
 
-    print("Public Key: ", end="")
-    print(public_key)
     for i in public_key:
         client_socket.send(str(i).encode())
         if client_socket.recv(1024).decode() != CONFIRMATION:                      # receive confirmation
             print("PUBLIC KEY: Confirmation not received")
             exit(1)
     print("Public Key sent successfully")
+    print("Public Key: ", end="")
+    print(public_key)
     print()
 
     # --------------------- store private key (PRK) -------------------- #

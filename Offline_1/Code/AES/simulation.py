@@ -2,14 +2,13 @@ from AES.encrypt import *
 from AES.decrypt import *
 import time
 
-# text = input("Enter your plaintext: ")
-# key = input("Enter your key: ")
+plaintext = input("Enter your plaintext: ")
+key = input("Enter your key: ")
 
 size = 16                                       # in bytes
-plaintext = "CanTheyDoTheirFest?"
-key = "BUET CSE17 Batch"
 
 padded_plaintext = pad_plaintext(plaintext, size)
+key = pad_key(key, size)
 
 for text in padded_plaintext:
     print("Plain Text: ")

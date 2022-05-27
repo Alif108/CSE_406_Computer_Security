@@ -17,11 +17,13 @@ def key_generation(k):
     n = p * q
     phi = (p-1) * (q-1)
 
+    # calculating e
     while True:
         e = random.randrange(2, phi)
         if math.gcd(e, phi) == 1:
             break
 
+    # calculating d
     d = 1
     bv_modulus = BitVector(intVal=phi)
     bv = BitVector(intVal=e)

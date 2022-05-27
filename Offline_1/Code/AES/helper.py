@@ -187,6 +187,11 @@ def transpose(matrix1):
 
 
 def pad_plaintext(string, n):
+    """
+    :param string:
+    :param n:
+    :return:
+    """
     split_strings = []
     for index in range(0, len(string), n):
         split_strings.append(string[index: index + n])
@@ -198,6 +203,11 @@ def pad_plaintext(string, n):
 
 
 def pad_key(string, n):
+    """
+    :param string:
+    :param n:
+    :return:
+    """
     if len(string) > n:
         string = string[:n]
 
@@ -205,3 +215,5 @@ def pad_key(string, n):
         string += "*" * (n-len(string))
 
     return string
+
+

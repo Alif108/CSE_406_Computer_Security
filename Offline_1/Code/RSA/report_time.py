@@ -2,7 +2,9 @@ from RSA.RSA_algorithm import *
 import time
 
 
-plaintext = "This is no place for no hero, This is no place for a better man to call home."
+plaintext = input("Enter your plaintext: ")
+print("Plaintext: %s" % plaintext)
+
 k_values = [16, 32, 64, 128]
 report = []
 
@@ -32,7 +34,9 @@ for k in k_values:
         deciphertext += i
 
     print("k = %d" % k, end="\t")
-    print("Deciphertext: %s" % deciphertext)
+    print("Deciphertext: %s" % deciphertext, end="\t")
+    print("Keys: ", end="")
+    print(keys)
 
     temp.append(key_gen_time)
     temp.append(encryption_time)
@@ -40,6 +44,7 @@ for k in k_values:
 
     report.append(temp)
 
+# ------------ printing the report ------------- #
 print("K", end="\t\t\t\t\t")
 print("Key-Generation", end="\t\t\t\t\t")
 print("Encryption", end="\t\t\t\t\t")

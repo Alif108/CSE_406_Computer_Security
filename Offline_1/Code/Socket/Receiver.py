@@ -10,7 +10,7 @@ port = 12345                                                    # define the por
 s.connect(('127.0.0.1', port))                                  # connect to the server on local computer
 
 no_of_chunks = int(s.recv(1024).decode())                       # receive total number of chunks
-print("Total number of chunks: %d" % no_of_chunks)
+# print("Total number of chunks: %d" % no_of_chunks)
 
 # --------------- receiving cipher text --------------- #
 
@@ -29,7 +29,7 @@ print()
 encrypted_AES_key = []
 encrypted_key_length = int(s.recv(1024).decode())               # receiving encrypted key length
 s.send(CONFIRMATION.encode())                                   # sending confirmation
-print("encrypted key length: %d" % encrypted_key_length)
+# print("encrypted key length: %d" % encrypted_key_length)
 
 for i in range(encrypted_key_length):
     encrypted_AES_key.append(s.recv(1024).decode())
@@ -38,6 +38,7 @@ for i in range(encrypted_key_length):
 for i in range(len(encrypted_AES_key)):
     encrypted_AES_key[i] = int(encrypted_AES_key[i])
 
+print("Encrypted AES key received successfully")
 print("Encrypted AES key:", end=" ")
 print(encrypted_AES_key)
 print()
@@ -85,27 +86,31 @@ print()
 # -------------------------------------------------------- #
 
 # ---------------- decrypt cipher text ------------------- #
-deciphertext = []
+deciphertext_list = []
 
 for text in AES_ciphertext:
     text = transpose(plaintext_to_hex(text))
-    deciphertext.append(convert_to_ASCII_string_AES(decrypt_AES(text, AES_key)))
-print("Deciphertext: ", end="")
-print(deciphertext)
-print()
+    deciphertext_list.append(convert_to_ASCII_string_AES(decrypt_AES(text, AES_key)))
 # -------------------------------------------------------- #
 
 
 # ----------------- write to folder ---------------------- #
 
+deciphertext = ""
 file = open(path + "/plaintext.txt", "+w")
-for text in deciphertext:
+for text in deciphertext_list:
     file.write(text.replace("*", ""))
+    deciphertext += text.replace("*", "")
 file.close()
 
 s.send(CONFIRMATION.encode())
 
+print("Deciphertext stored successfully")
 # -------------------------------------------------------- #
+
+print("Deciphertext: ", end="")
+print(deciphertext)
+print()
 
 # close the connection
 s.close()
