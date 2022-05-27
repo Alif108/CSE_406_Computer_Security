@@ -2,7 +2,7 @@ from AES.helper import *
 
 # from itertools import chain
 import numpy as np
-
+import time
 
 def input_key(text):
     """
@@ -79,6 +79,7 @@ def key_expansion(key_in_text):
     :param key_in_text: key in plain ASCII string
     :return: array of dim 11x16
     """
+    # print("KEY SCHEDULE BEFORE: %f" % time.time())
     round_keys = []
     round0_key = input_key(key_in_text)
     round_keys.append(round0_key)
@@ -91,4 +92,5 @@ def key_expansion(key_in_text):
         # round_keys.append(list(chain.from_iterable(new_key)))
         round_i_key = new_key
 
+    # print("KEY SCHEDULE AFTER: %f" % time.time())
     return round_keys

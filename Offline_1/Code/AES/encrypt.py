@@ -1,6 +1,6 @@
 from AES.key import *
 from AES.helper import *
-
+import time
 
 
 def shift_row(state_matrix):
@@ -52,9 +52,13 @@ def encrypt_AES(plaintext, key):
     :param plaintext: a string containing the text to be encrypted
     :param key: a string that will be used to encrypt
     :return: state_matrix: 2D list
+             key_scheduling_time = time of key generation (in seconds)
     """
     state_matrix = plaintext_to_hex(plaintext)
+
+    key_scheduling_time = time.time()
     round_keys = key_expansion(key)
+    key_scheduling_time = time.time() - key_scheduling_time
 
     # ROUND 0
     state_matrix = add_round_key(state_matrix, round_keys, 0, ENCRYPT)
@@ -71,4 +75,4 @@ def encrypt_AES(plaintext, key):
     state_matrix = shift_row(state_matrix)
     state_matrix = add_round_key(state_matrix, round_keys, 10, ENCRYPT)
 
-    return state_matrix
+    return state_matrix, key_scheduling_time
