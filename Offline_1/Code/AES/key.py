@@ -1,10 +1,8 @@
 from AES.helper import *
-
-# from itertools import chain
 import numpy as np
-import time
 
-def input_key(text):
+
+def key_to_hex(text):
     """
     :param text: a string
     :return: 2D array with the string converted to its ASCII values(integer)
@@ -12,8 +10,6 @@ def input_key(text):
     key_in_hex = []
 
     if len(text) == 16:
-        # for i in text.encode('utf-8'):
-        #     key_in_hex.append(hex(i))
         for i in text:
             key_in_hex.append(ord(i))
 
@@ -47,7 +43,7 @@ def func_g(w, round):
 
 
 def key_schedule(key, round):
-    """
+    """ generates key of next round from key of previous round
     :param key: 1D array
     :param round: integer
     :return: 1D array
@@ -79,18 +75,14 @@ def key_expansion(key_in_text):
     :param key_in_text: key in plain ASCII string
     :return: array of dim 11x16
     """
-    # print("KEY SCHEDULE BEFORE: %f" % time.time())
     round_keys = []
-    round0_key = input_key(key_in_text)
+    round0_key = key_to_hex(key_in_text)
     round_keys.append(round0_key)
-    # round_keys.append(round0_key.flatten())
 
     round_i_key = round0_key
     for round in range(1, 11):
         new_key = key_schedule(round_i_key, round)
         round_keys.append(new_key)
-        # round_keys.append(list(chain.from_iterable(new_key)))
         round_i_key = new_key
 
-    # print("KEY SCHEDULE AFTER: %f" % time.time())
     return round_keys

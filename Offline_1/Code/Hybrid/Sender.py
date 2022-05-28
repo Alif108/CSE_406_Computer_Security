@@ -1,6 +1,6 @@
 from AES.encrypt import *
 from RSA.RSA_algorithm import *
-from Socket.configuration import *
+from Hybrid.configuration import *
 import socket
 import os
 
@@ -31,23 +31,26 @@ while True:
     # ----------------- input plaintext and key ------------------------- #
 
     plaintext = input("Enter your plaintext: ")
-    key = input("Enter your key: ")
-    # plaintext = "CanTheyDoTheirFest?"
-    # key = "BUET CSE17 Batch"
 
-    key = pad_key(key, size)
     padded_plaintext = pad_plaintext(plaintext, size)                  # store plaintext into chunks
     client_socket.send(str(len(padded_plaintext)).encode())            # sending the total number of the chunks
+
+    key = input("Enter your key: ")
+    key = pad_key(key, size)
+
+    print("Plaintext: %s" % plaintext)
+    print("Key: %s" % key)
+    print()
 
     # ------------- sending cipher text (AES encrypted) ----------------- #
 
     for text in padded_plaintext:
-        ciphertext = encrypt_AES(plaintext=text, key=key)
+        ciphertext, key_time = encrypt_AES(plaintext=text, key=key)
         ciphertext = convert_to_ASCII_string_AES(ciphertext)
         client_socket.send(ciphertext.encode())
         print("Ciphertext %s sent" % ciphertext)
 
-        if client_socket.recv(1024).decode() != CONFIRMATION:
+        if client_socket.recv(1024).decode() != CONFIRMATION:           # receive confirmation
             print("CIPHERTEXT: Confirmation not received")
             exit(1)
 
@@ -60,7 +63,7 @@ while True:
     keys = key_generation(int(bits/2))
     public_key = keys[0]
     private_key = keys[1]
-    encrypted_AES_key = encrypt_RSA(plaintext=key, public_key=public_key)
+    encrypted_AES_key = encrypt_RSA(plaintext=key, public_key=public_key)   # encrypting the AES key
 
     client_socket.send(str(len(encrypted_AES_key)).encode())                # sending encrypted_key length
     if client_socket.recv(1024).decode() != CONFIRMATION:                   # receive confirmation
@@ -71,7 +74,7 @@ while True:
     print(encrypted_AES_key)
     for i in encrypted_AES_key:
         client_socket.send(str(i).encode())                                 # send key
-        if client_socket.recv(1024).decode() != CONFIRMATION:                      # receive confirmation
+        if client_socket.recv(1024).decode() != CONFIRMATION:               # receive confirmation
             print("ENCRYPTED AES KEY: Confirmation not received")
             exit(1)
     print("Encrypted key sent successfully")
@@ -81,8 +84,6 @@ while True:
 
     # --------------------- sending public key (PUK) ------------------- #
 
-    print("Public Key: ", end="")
-    print(public_key)
     for i in public_key:
         client_socket.send(str(i).encode())
         if client_socket.recv(1024).decode() != CONFIRMATION:                      # receive confirmation
@@ -104,7 +105,7 @@ while True:
     print("Private Key: ", end="")
     print(private_key)
     print()
-    client_socket.send("PRK".encode())                                              # telling the client socket about PRK
+    client_socket.send("PRK".encode())                                              # telling the receiver about PRK
     if client_socket.recv(1024).decode() != CONFIRMATION:                           # receive confirmation
         print("PRIVATE KEY: Confirmation not received")
         exit(1)

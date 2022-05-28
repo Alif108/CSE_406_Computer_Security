@@ -1,6 +1,6 @@
 from RSA.RSA_algorithm import *
 
-bits = 128
+bits = 128                  # number of bits in keys
 plaintext = input("Enter you plaintext: ")
 
 keys = key_generation(int(bits/2))
@@ -13,6 +13,7 @@ print("Private Key: ", end="")
 print(private_key)
 
 ciphertext = encrypt_RSA(plaintext, public_key)
+print("Ciphertext: ", end="")
 print(ciphertext)
 
 deciphertext = ""

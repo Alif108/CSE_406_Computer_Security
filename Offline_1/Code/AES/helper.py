@@ -9,13 +9,11 @@ DECRYPT = 1
 def plaintext_to_hex(text):
     """
     :param text: a string
-    :return: 2D array with the string converted to its ASCII values(integer)
+    :return: 2D array with the string converted to its ASCII values(integer) (4 x 4)
     """
     plaintext_in_hex = []
 
     if len(text) == 16:
-        # for i in text.encode('utf-8'):
-        #     plaintext_in_hex.append(hex(i))
         for i in text:
             plaintext_in_hex.append(ord(i))
 
@@ -24,7 +22,7 @@ def plaintext_to_hex(text):
 
 
 def circular_left_shift(array):
-    """
+    """ shifts entries to left by one element
     :param array: 1D array of any size
     :return: 1D left shifted array
     """
@@ -55,7 +53,6 @@ def sub_bytes(array, dim):
     """
     if dim == 1:
         for i in range(len(array)):
-            # int_val = int(array[i], 0)
             int_val = array[i]
             s_box_val = Sbox[int_val]
             array[i] = s_box_val
@@ -63,7 +60,6 @@ def sub_bytes(array, dim):
     elif dim == 2:
         for i in range(len(array)):
             for j in range(len(array[0])):
-                # int_val = int(array[i], 0)
                 int_val = array[i][j]
                 s_box_val = Sbox[int_val]
                 array[i][j] = s_box_val
@@ -188,9 +184,9 @@ def transpose(matrix1):
 
 def pad_plaintext(string, n):
     """
-    :param string:
-    :param n:
-    :return:
+    :param string: string to pad
+    :param n: size to pad
+    :return: list of strings (16 characters each)
     """
     split_strings = []
     for index in range(0, len(string), n):
@@ -204,9 +200,9 @@ def pad_plaintext(string, n):
 
 def pad_key(string, n):
     """
-    :param string:
-    :param n:
-    :return:
+    :param string: string to pad
+    :param n: size to pad to
+    :return: string of 16 characters
     """
     if len(string) > n:
         string = string[:n]

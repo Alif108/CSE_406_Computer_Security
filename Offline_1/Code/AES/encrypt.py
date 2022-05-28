@@ -1,6 +1,6 @@
 from AES.key import *
 from AES.helper import *
-import time
+from timeit import default_timer as timer
 
 
 def shift_row(state_matrix):
@@ -56,12 +56,12 @@ def encrypt_AES(plaintext, key):
     """
     state_matrix = plaintext_to_hex(plaintext)
 
-    key_scheduling_time = time.time()
+    key_scheduling_time = timer()
     round_keys = key_expansion(key)
-    key_scheduling_time = time.time() - key_scheduling_time
+    key_scheduling_time = timer() - key_scheduling_time
 
     # ROUND 0
-    state_matrix = add_round_key(state_matrix, round_keys, 0, ENCRYPT)
+    state_matrix = add_round_key(state_matrix=state_matrix, round_keys=round_keys, round=0, decryption=ENCRYPT)
 
     # ROUND 1 to 9
     for round in range(1, 10):

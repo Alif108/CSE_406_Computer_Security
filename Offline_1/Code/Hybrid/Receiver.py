@@ -1,6 +1,6 @@
 from AES.decrypt import *
 from RSA.RSA_algorithm import *
-from Socket.configuration import *
+from Hybrid.configuration import *
 import socket
 
 s = socket.socket()                                             # create a socket object

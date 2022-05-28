@@ -1,6 +1,7 @@
 from RSA.helper import *
-import math
 from BitVector import *
+import random
+import math
 
 
 def key_generation(k):
@@ -11,7 +12,7 @@ def key_generation(k):
     p = generate_prime_number(k)
     q = generate_prime_number(k)
 
-    while p == q:
+    while p == q:                       # p and q cannot be the same
         q = generate_prime_number(k)
 
     n = p * q

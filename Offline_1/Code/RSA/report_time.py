@@ -1,5 +1,5 @@
 from RSA.RSA_algorithm import *
-import time
+from timeit import default_timer as timer
 
 
 plaintext = input("Enter your plaintext: ")
@@ -11,23 +11,23 @@ report = []
 for k in k_values:
     temp = []
 
-    key_gen_time = time.time()
+    key_gen_time = timer()
     keys = key_generation(int(k/2))
-    key_gen_time = time.time() - key_gen_time
+    key_gen_time = timer() - key_gen_time
 
     public_key = keys[0]
     private_key = keys[1]
 
     # ------------- ENCRYPTION ------------- #
-    encryption_time = time.time()
+    encryption_time = timer()
     ciphertext = encrypt_RSA(plaintext, public_key)
-    encryption_time = time.time() - encryption_time
+    encryption_time = timer() - encryption_time
 
     # ------------- DECRYPTION ------------- #
 
-    decryption_time = time.time()
+    decryption_time = timer()
     deciphertext_list = decrypt_RSA(ciphertext, private_key)
-    decryption_time = time.time() - decryption_time
+    decryption_time = timer() - decryption_time
 
     deciphertext = ""
     for i in deciphertext_list:
