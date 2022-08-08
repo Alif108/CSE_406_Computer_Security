@@ -1,0 +1,5 @@
+1. CSRF Assignment: https://drive.google.com/file/d/1AnLbcanj6VDlayXw1ucmVwAxYOPc6ANm/view?usp=sharing
+
+2. SQL Injection Assignment: https://drive.google.com/file/d/16XyTbT1FkzgtCkLNxxJPMUNX8ask7xRw/view?usp=sharing
+
+3. XSS Assignment: https://drive.google.com/file/d/1HOfM-jdTPLSsRZSgah-N2mJTdm-58d1N/view?usp=sharing
